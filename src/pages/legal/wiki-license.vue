@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view class="card">
       <view class="title">维基百科内容许可说明</view>
@@ -44,9 +44,9 @@ function copyUrl(u) {
 </script>
 
 <style scoped>
-.title { font-family: 'Varela Round', sans-serif; font-size: 40rpx; color: #831843; margin-bottom: 8rpx; }
+.title { font-family: var(--font-display); font-weight: 600; font-size: 40rpx; color: #1f2a25; margin-bottom: 8rpx; }
 .meta { margin-bottom: 24rpx; }
-.h { font-weight: 700; color: #831843; margin: 28rpx 0 10rpx; font-size: 28rpx; }
-.p { color: #64748b; font-size: 26rpx; line-height: 1.7; margin-bottom: 8rpx; word-break: break-all; }
-.link { color: #ec4899; font-weight: 600; }
+.h { font-weight: 700; color: #1f2a25; margin: 28rpx 0 10rpx; font-size: 28rpx; }
+.p { color: #6e7872; font-size: 26rpx; line-height: 1.7; margin-bottom: 8rpx; word-break: break-all; }
+.link { color: #326650; font-weight: 600; }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view class="hero">
       <view class="hero-brand" style="font-size: 40rpx">开始照护</view>
@@ -79,10 +79,10 @@ function finish() {
 .step { display: flex; gap: 20rpx; align-items: flex-start; }
 .step-no {
   width: 56rpx; height: 56rpx; border-radius: 50%;
-  background: #fce7f3; color: #f472b6; font-weight: 700;
+  background: #eaf2ee; color: #3f7d64; font-weight: 700;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.step.done .step-no { background: #d1fae5; color: #059669; }
+.step.done .step-no { background: #eaf2ee; color: #3f7d64; }
 .step.disabled { opacity: 0.55; }
 .step-body { flex: 1; }
 </style>

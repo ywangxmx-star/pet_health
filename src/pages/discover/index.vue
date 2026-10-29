@@ -1,9 +1,11 @@
 <template>
   <view class="page">
     <web-side-nav />
-    <view class="hero">
-      <view class="hero-brand" style="font-size: 40rpx">护理百科</view>
-      <view class="hero-sub">温柔科普，仅供参考 · 不替代兽医</view>
+    <view class="page-intro">
+      <view class="page-intro-text">
+        <view class="page-title">护理百科</view>
+        <view class="page-sub">温柔科普，仅供参考，不替代兽医诊疗</view>
+      </view>
     </view>
 
     <view class="filter-row">
@@ -81,43 +83,45 @@ function go(id) { uni.navigateTo({ url: '/pages/article/detail?id=' + id }) }
 </script>
 
 <style scoped>
-.filter-row { margin-bottom: 16rpx; }
+.filter-row { margin-bottom: 32rpx; }
 .filter-scroll { white-space: nowrap; }
 .filter-tab {
   display: inline-block;
-  padding: 12rpx 28rpx;
+  padding: 12rpx 32rpx;
   margin-right: 12rpx;
   border-radius: 999rpx;
-  background: #fff;
-  color: #94a3b8;
+  background: var(--surface);
+  color: var(--muted);
   font-size: 26rpx;
-  border: 1rpx solid #fce7f3;
+  border: 1rpx solid var(--line);
 }
 .filter-tab.on {
-  background: #fdf2f8;
-  color: #ec4899;
-  border-color: #f9a8d4;
-  font-weight: 700;
+  background: var(--ink);
+  color: var(--surface);
+  border-color: var(--ink);
+  font-weight: 600;
 }
 .art-grid { display: flex; flex-direction: column; gap: 0; }
 .art {
   display: flex;
-  gap: 20rpx;
-  align-items: stretch;
+  gap: 24rpx;
+  align-items: center;
+  padding: 24rpx;
 }
 .art-cover {
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 24rpx;
+  width: 168rpx;
+  height: 168rpx;
+  border-radius: 20rpx;
   flex-shrink: 0;
-  background: #fce7f3;
+  background: var(--brand-soft);
 }
 .art-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
 .title {
   font-size: 30rpx;
-  font-weight: 700;
-  color: #831843;
-  margin-bottom: 10rpx;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink);
+  margin-bottom: 12rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -128,11 +132,24 @@ function go(id) { uni.navigateTo({ url: '/pages/article/detail?id=' + id }) }
 .more { text-align: center; padding: 20rpx 0 8rpx; font-size: 24rpx; min-height: 40rpx; }
 .empty-img { width: 220rpx; height: 220rpx; margin: 0 auto 16rpx; display: block; }
 @media (min-width: 900px) {
+  .filter-row { margin-bottom: 24px; }
+  .filter-tab { font-size: 14px; padding: 6px 18px; cursor: pointer; }
   .art-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
   }
-  .title { font-size: 17px; }
+  .art {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .art-cover { width: 100%; height: 160px; border-radius: 0; }
+  .art-body { padding: 16px 18px 18px; justify-content: flex-start; }
+  .title { font-size: 16px; margin-bottom: 10px; }
 }
 </style>

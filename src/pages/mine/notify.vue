@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view v-if="notes.length" class="toolbar">
       <view
@@ -74,10 +74,10 @@ function formatTime(t) {
   min-width: 0; padding: 0 28rpx; height: 64rpx; font-size: 24rpx;
   display: flex; align-items: center; justify-content: center;
 }
-.menu-title { font-weight: 700; color: #831843; }
+.menu-title { font-weight: 700; color: #1f2a25; }
 .more { text-align: center; padding: 8rpx 0 16rpx; font-size: 24rpx; }
 .empty { text-align: center; padding: 48rpx 24rpx; }
-.is-unread { border-left: 6rpx solid #f472b6; }
+.is-unread { border-left: 6rpx solid #3f7d64; }
 .xs { font-size: 20rpx; margin-top: 8rpx; }
 .is-disabled { opacity: 0.45; pointer-events: none; }
 </style>

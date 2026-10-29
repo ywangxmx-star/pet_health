@@ -1,10 +1,17 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
-    <view class="card">
-      <view class="section-title">家庭成员</view>
-      <view v-if="loading && !members.length" class="muted">加载中…</view>
-      <view v-for="m in members" :key="m.userId" class="list-item member-item">
+    <view class="page-intro">
+      <view class="page-intro-text">
+        <view class="page-title">家庭管理</view>
+        <view class="page-sub">与家人共同照顾毛孩子，记录与提醒实时同步</view>
+      </view>
+    </view>
+
+    <view class="group-label">成员</view>
+    <view class="group">
+      <view v-if="loading && !members.length" class="group-row muted">加载中…</view>
+      <view v-for="m in members" :key="m.userId" class="group-row">
         <view class="member">
           <image class="avatar sm" :src="userAvatar(m.avatar)" mode="aspectFill" />
           <view class="flex1">
@@ -21,11 +28,17 @@
           >移除</view>
         </view>
       </view>
-      <view v-if="!loading && !members.length" class="muted" style="padding: 16rpx 0">暂无成员</view>
-      <view v-if="members.length" class="more muted" :class="endClass">{{ moreText }}</view>
+      <view v-if="!loading && !members.length" class="group-row muted">暂无成员</view>
+    </view>
+    <view v-if="members.length" class="more muted" :class="endClass">{{ moreText }}</view>
 
-      <view class="btn-primary" style="margin-top: 24rpx" @click="invite">生成邀请码</view>
-      <view class="btn-secondary" style="margin-top: 16rpx" @click="join">加入家庭</view>
+    <view class="group-label invite-label">邀请</view>
+    <view class="card invite-card">
+      <view class="muted invite-hint">生成邀请码发给家人，或输入他人的邀请码加入其家庭。</view>
+      <view class="invite-actions">
+        <view class="btn-primary" @click="invite">生成邀请码</view>
+        <view class="btn-secondary" @click="join">加入家庭</view>
+      </view>
       <view v-if="inviteCode" class="invite-box">
         <text class="muted">邀请码已复制到剪贴板（7 天有效）</text>
         <text class="code">{{ inviteCode }}</text>
@@ -111,26 +124,45 @@ function formatJoin(t) {
 </script>
 
 <style scoped>
-.member-item { padding: 16rpx 0; border-bottom: 1rpx solid #fce7f3; }
-.more { text-align: center; padding: 16rpx 0 0; font-size: 24rpx; }
-.member-item:last-of-type { border-bottom: none; }
-.member { display: flex; align-items: center; gap: 16rpx; width: 100%; }
+.more { text-align: center; padding: 0 0 16rpx; font-size: 24rpx; }
+.member { display: flex; align-items: center; gap: 20rpx; width: 100%; }
 .flex1 { flex: 1; min-width: 0; }
-.avatar.sm { width: 72rpx; height: 72rpx; border-radius: 22rpx; flex-shrink: 0; }
+.avatar.sm { width: 80rpx; height: 80rpx; border-radius: 50%; flex-shrink: 0; }
 .name-row { display: flex; align-items: center; gap: 12rpx; }
-.name { font-weight: 600; color: #831843; }
+.name { font-weight: 600; font-size: 30rpx; color: var(--ink); }
 .badge {
-  font-size: 18rpx; color: #f472b6; border: 1rpx solid #f9a8d4;
-  border-radius: 999rpx; padding: 0 10rpx;
+  font-size: 20rpx; color: var(--brand-strong); background: var(--brand-soft);
+  border-radius: 999rpx; padding: 2rpx 14rpx;
 }
-.xs { font-size: 20rpx; margin-top: 6rpx; }
-.btn-text { background: transparent; padding: 8rpx 12rpx; font-size: 22rpx; }
-.danger-txt { color: #dc2626; }
+.xs { font-size: 22rpx; margin-top: 4rpx; }
+.btn-text { background: transparent; padding: 8rpx 12rpx; font-size: 24rpx; }
+.danger-txt { color: var(--danger); }
+.invite-label { margin-top: 24rpx; }
+.invite-card { padding: 32rpx; }
+.invite-hint { font-size: 24rpx; line-height: 1.6; margin-bottom: 24rpx; }
+.invite-actions { display: flex; gap: 16rpx; }
+.invite-actions > view { flex: 1; }
 .invite-box {
-  margin-top: 24rpx; padding: 20rpx; background: #fce7f3; border-radius: 24rpx;
+  margin-top: 24rpx; padding: 24rpx; background: var(--brand-soft); border-radius: 20rpx;
   display: flex; flex-direction: column; gap: 8rpx;
 }
 .code {
-  font-family: 'Varela Round', monospace; font-size: 36rpx; color: #f472b6; letter-spacing: 0.12em;
+  font-weight: 700; font-size: 40rpx; color: var(--brand-strong); letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
 }
+/* #ifdef H5 */
+@media (min-width: 900px) {
+  .avatar.sm { width: 40px; height: 40px; }
+  .name { font-size: 15px; }
+  .badge { font-size: 11px; padding: 1px 8px; }
+  .xs { font-size: 12px; }
+  .btn-text { font-size: 13px; cursor: pointer; }
+  .invite-label { margin-top: 12px; }
+  .invite-card { padding: 24px; border-radius: 16px; }
+  .invite-hint { font-size: 13px; margin-bottom: 18px; }
+  .invite-actions { gap: 12px; max-width: 420px; }
+  .invite-box { padding: 16px; border-radius: 12px; }
+  .code { font-size: 24px; }
+}
+/* #endif */
 </style>

@@ -76,14 +76,14 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "爪爪养宠助手",
-    "navigationBarBackgroundColor": "#FDF2F8",
-    "backgroundColor": "#FDF2F8",
-    "backgroundColorTop": "#FDF2F8",
+    "navigationBarBackgroundColor": "#f5f6f3",
+    "backgroundColor": "#f5f6f3",
+    "backgroundColorTop": "#f5f6f3",
     "backgroundColorBottom": "#FFFFFF"
   },
   "tabBar": {
-    "color": "#94A3B8",
-    "selectedColor": "#F472B6",
+    "color": "#9ba49f",
+    "selectedColor": "#3f7d64",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [

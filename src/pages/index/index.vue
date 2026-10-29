@@ -11,62 +11,61 @@
     </view>
 
     <template v-else>
-      <view class="brand-row home-brand-mobile">
-        <view class="paw-dot"></view>
-        <text class="brand">爪爪</text>
-        <view class="paw-dot"></view>
+      <view class="greet">
+        <view class="greet-left">
+          <view class="greet-date">{{ todayLabel }}</view>
+          <view class="greet-title">{{ greet }}，铲屎官</view>
+          <view class="greet-sub">{{ reminders.length ? `今天有 ${reminders.length} 项护理待完成` : '今天没有待办，好好陪陪毛孩子吧' }}</view>
+        </view>
+        <image class="greet-art" src="/static/illus/greet-pets.png" mode="aspectFill" />
       </view>
-      <view class="slogan muted home-brand-mobile">陪伴 · 守护 · 安心成长</view>
 
       <view class="home-desk">
         <view class="home-main">
-          <view class="card greet">
-            <view class="greet-left">
-              <view class="greet-title">{{ greet }}，铲屎官</view>
-              <view class="muted">今天也要好好陪伴毛孩子～</view>
+          <view class="section-head">
+            <view class="section-title">近期提醒</view>
+            <view class="link" @click="goPets">查看全部</view>
+          </view>
+
+          <view v-if="loading && !reminders.length" class="group"><view class="group-row muted">加载中…</view></view>
+          <view v-else-if="!reminders.length" class="group">
+            <view class="rem-empty">
+              <view class="group-title">一切顺利</view>
+              <view class="group-desc">暂无到期提醒，可在宠物详情中添加</view>
             </view>
-            <image class="greet-art" src="/static/illus/greet-pets.png" mode="aspectFill" />
           </view>
-
-          <view v-if="pets.length > 1" class="pet-tabs">
-            <scroll-view scroll-x class="pet-scroll">
-              <view
-                v-for="p in pets" :key="p.id"
-                class="pet-tab" :class="{ on: p.id === curPetId }"
-                @click="curPetId = p.id"
-              >{{ p.name }}</view>
-            </scroll-view>
-          </view>
-
-          <view class="row-between" style="margin-bottom: 12rpx">
-            <view class="section-title" style="margin-bottom: 0">近期提醒</view>
-            <view class="link" @click="goPets">查看全部 ›</view>
-          </view>
-
-          <view v-if="loading && !reminders.length" class="card muted">加载中…</view>
-          <view v-else-if="!reminders.length" class="card">
-            <view class="muted" style="text-align:center;padding:16rpx 0">暂无到期提醒，一切顺利</view>
-          </view>
-          <view v-else class="remind-grid">
-            <view v-for="item in reminders" :key="item.reminder.id" class="card remind-card">
-              <view class="remind-type">
-                {{ item.reminder.type }}
-                <text v-if="item.overdue" class="overdue">逾期</text>
+          <view v-else class="group">
+            <view v-for="item in reminders" :key="item.reminder.id" class="group-row rem-row">
+              <view class="rem-mark" :class="{ overdue: item.overdue }"></view>
+              <view class="group-main">
+                <view class="group-title">
+                  {{ item.reminder.type }}
+                  <text v-if="item.overdue" class="overdue">逾期</text>
+                </view>
+                <view class="group-desc">{{ item.pet.name }} · {{ remCycleText(item.reminder) }} · {{ formatTime(item.reminder.nextDueAt) }}</view>
               </view>
-              <view class="remind-pet">{{ item.pet.name }}</view>
-              <view class="muted rem-meta">{{ remCycleText(item.reminder) }}</view>
-              <view class="muted rem-meta">{{ formatTime(item.reminder.nextDueAt) }}</view>
-              <view class="btn-mint rem-btn" @click="checkin(item)">打卡完成</view>
+              <view class="btn-pill primary" @click="checkin(item)">打卡</view>
             </view>
           </view>
           <view v-if="reminders.length" class="more muted" :class="remEndClass">{{ remMore }}</view>
         </view>
 
         <view class="home-side">
-          <view class="section-title">快捷操作</view>
-          <view class="card">
-            <view class="muted" style="margin-bottom: 16rpx" v-if="curPet">当前：{{ curPet.name }}</view>
-            <view v-else class="muted" style="margin-bottom: 16rpx">请先添加宠物</view>
+          <view class="section-head">
+            <view class="section-title">快捷记录</view>
+          </view>
+          <view class="card quick">
+            <view v-if="pets.length > 1" class="pet-tabs">
+              <scroll-view scroll-x class="pet-scroll">
+                <view
+                  v-for="p in pets" :key="p.id"
+                  class="pet-tab" :class="{ on: p.id === curPetId }"
+                  @click="curPetId = p.id"
+                >{{ p.name }}</view>
+              </scroll-view>
+            </view>
+            <view v-else-if="curPet" class="muted quick-for">为 {{ curPet.name }} 记录</view>
+            <view v-else class="muted quick-for">请先添加宠物</view>
             <view class="actions">
               <view class="action" @click="goLog('weight')">
                 <image class="action-ico" src="/static/ico/weight.png" mode="aspectFit" />
@@ -87,10 +86,15 @@
             </view>
           </view>
 
-          <view v-if="curPet && recentLog" class="card">
-            <view class="section-title" style="margin-bottom: 12rpx">{{ curPet.name }} 最近记录</view>
-            <view class="muted">{{ typeLabel(recentLog.type) }}：{{ recentLog.content || recentLog.value }}</view>
-            <view class="muted xs">{{ formatTime(recentLog.occurredAt) }}<text v-if="recentLog.userNickname"> · {{ recentLog.userNickname }}</text></view>
+          <view v-if="curPet && recentLog" class="section">
+            <view class="section-head">
+              <view class="section-title">最近一次记录</view>
+            </view>
+            <view class="card recent">
+              <view class="recent-type">{{ typeLabel(recentLog.type) }}</view>
+              <view class="recent-val">{{ recentLog.content || recentLog.value }}</view>
+              <view class="muted xs">{{ curPet.name }} · {{ formatTime(recentLog.occurredAt) }}<text v-if="recentLog.userNickname"> · {{ recentLog.userNickname }}</text></view>
+            </view>
           </view>
         </view>
       </view>
@@ -121,6 +125,11 @@ const greet = computed(() => {
   if (h < 14) return '中午好'
   if (h < 18) return '下午好'
   return '晚上好'
+})
+const todayLabel = computed(() => {
+  const d = new Date()
+  const w = ['日', '一', '二', '三', '四', '五', '六'][d.getDay()]
+  return `${d.getMonth() + 1} 月 ${d.getDate()} 日 · 星期${w}`
 })
 const curPet = computed(() => pets.value.find((p) => p.id === curPetId.value) || pets.value[0] || null)
 
@@ -233,168 +242,128 @@ function goLog(type) {
 </script>
 
 <style scoped>
-.brand-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12rpx;
-  margin-top: 8rpx;
-}
-.brand {
-  font-family: 'Varela Round', sans-serif;
-  font-size: 48rpx;
-  color: #f472b6;
-  font-weight: 700;
-}
-.paw-dot {
-  width: 16rpx; height: 16rpx; border-radius: 50%;
-  background: #f9a8d4;
-}
-.slogan { text-align: center; margin: 8rpx 0 24rpx; }
 .greet {
   display: flex;
-  gap: 16rpx;
-  background: linear-gradient(135deg, #fff7fb, #fce7f3);
-  border: none;
-}
-.greet-left { flex: 1; }
-.heart-dot {
-  width: 56rpx; height: 56rpx; border-radius: 50%;
-  background: #f472b6; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 12rpx; font-size: 28rpx;
-}
-.greet-title {
-  font-size: 32rpx; font-weight: 700; color: #831843; margin-bottom: 8rpx;
-}
-.greet-art {
-  width: 140rpx; height: 140rpx; border-radius: 32rpx;
-  flex-shrink: 0;
-}
-.empty-img {
-  width: 220rpx; height: 220rpx; margin: 0 auto 16rpx; display: block;
-}
-.action-ico {
-  width: 56rpx; height: 56rpx; margin: 0; border-radius: 14rpx;
-  display: block; flex-shrink: 0; overflow: hidden;
-}
-.action-txt {
-  line-height: 1;
-  font-size: 24rpx;
-  font-weight: 600;
-  color: #831843;
-  height: 28rpx;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 24rpx;
+  padding: 8rpx 4rpx 40rpx;
 }
-.pet-tabs { margin-bottom: 16rpx; }
-.pet-scroll { white-space: nowrap; }
-.pet-tab {
-  display: inline-block; padding: 10rpx 24rpx; margin-right: 12rpx;
-  background: #fff; border: 1rpx solid #fce7f3; border-radius: 999rpx;
-  font-size: 26rpx; color: #831843;
-}
-.pet-tab.on { background: #f472b6; color: #fff; border-color: #f472b6; }
-.remind-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16rpx;
+.greet-left { flex: 1; min-width: 0; }
+.greet-date {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: var(--brand);
+  letter-spacing: 1rpx;
   margin-bottom: 8rpx;
 }
-.more { text-align: center; padding: 8rpx 0 16rpx; font-size: 24rpx; width: 100%; }
-.remind-card {
-  width: calc(50% - 8rpx);
-  box-sizing: border-box;
-  margin-bottom: 0;
+.greet-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 8rpx;
 }
-.remind-type { font-weight: 700; color: #831843; margin-bottom: 6rpx; display: flex; align-items: center; gap: 8rpx; flex-wrap: wrap; }
+.greet-sub { font-size: 26rpx; color: var(--muted); line-height: 1.5; }
+.greet-art {
+  width: 136rpx;
+  height: 136rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--brand-soft);
+}
+.empty-img { width: 220rpx; height: 220rpx; margin: 0 auto 16rpx; display: block; }
+
+.rem-empty { padding: 40rpx 32rpx; text-align: center; }
+.rem-mark {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--brand);
+  flex-shrink: 0;
+}
+.rem-mark.overdue { background: var(--danger); }
+.rem-row .group-title { display: flex; align-items: center; gap: 12rpx; flex-wrap: wrap; }
 .overdue {
-  font-size: 20rpx; font-weight: 600; color: #dc2626;
-  background: #fef2f2; border-radius: 999rpx; padding: 2rpx 10rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-radius: 999rpx;
+  padding: 2rpx 12rpx;
+  line-height: 1.5;
 }
-.remind-pet { color: #f472b6; font-size: 24rpx; margin-bottom: 4rpx; }
-.rem-meta { font-size: 22rpx; margin-bottom: 4rpx; }
-.rem-btn {
-  margin-top: 14rpx;
-  width: 100%;
-  height: 56rpx;
-  min-height: 56rpx;
-  font-size: 22rpx;
-  box-sizing: border-box;
+.more { text-align: center; padding: 4rpx 0 16rpx; font-size: 24rpx; }
+
+.home-side { margin-top: 48rpx; }
+.quick { padding: 28rpx; }
+.quick-for { margin-bottom: 20rpx; font-size: 24rpx; }
+.pet-tabs { margin-bottom: 20rpx; }
+.pet-scroll { white-space: nowrap; }
+.pet-tab {
+  display: inline-block;
+  padding: 8rpx 24rpx;
+  margin-right: 12rpx;
+  background: var(--bg);
+  border: 1rpx solid var(--line);
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  color: var(--muted);
 }
-.actions { display: flex; gap: 16rpx; flex-wrap: wrap; }
+.pet-tab.on { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16rpx;
+}
 .action {
-  flex: 1; min-width: 140rpx;
-  background: #fce7f3;
-  border-radius: 24rpx;
-  padding: 18rpx 12rpx 22rpx;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14rpx;
-  line-height: 1;
+  gap: 12rpx;
+  padding: 24rpx 8rpx;
+  border-radius: 24rpx;
+  background: var(--bg);
+  box-sizing: border-box;
 }
-.action:active { opacity: 0.85; }
-.xs { font-size: 20rpx; margin-top: 6rpx; }
+.action:active { background: var(--brand-soft); }
+.action-ico { width: 56rpx; height: 56rpx; border-radius: 16rpx; display: block; }
+.action-txt { font-size: 24rpx; font-weight: 500; color: var(--ink); line-height: 1.2; }
+
+.recent { padding: 28rpx 32rpx; }
+.recent-type { font-size: 22rpx; font-weight: 600; color: var(--brand); letter-spacing: 1rpx; margin-bottom: 6rpx; }
+.recent-val { font-size: 30rpx; font-weight: 600; color: var(--ink); margin-bottom: 6rpx; word-break: break-all; }
+.xs { font-size: 22rpx; }
 
 /* #ifdef H5 */
-.action {
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  padding: 0 12px !important;
-  height: 52px !important;
-  min-height: 52px !important;
-  line-height: 1 !important;
-  box-sizing: border-box !important;
-}
-.action-ico {
-  width: 28px !important;
-  height: 28px !important;
-  margin: 0 !important;
-  flex-shrink: 0 !important;
-}
-.action-txt {
-  display: block !important;
-  height: 28px !important;
-  line-height: 28px !important;
-  font-size: 14px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  transform: none !important;
-}
-.action:hover { background: #f9a8d4; }
-
+.action-ico { width: 32px !important; height: 32px !important; }
+.action-txt { font-size: 13px !important; }
 @media (min-width: 900px) {
-  .home-brand-mobile { display: none; }
+  .greet { padding: 0 0 36px; gap: 32px; }
+  .greet-date { font-size: 13px; margin-bottom: 6px; }
+  .greet-title { font-size: 30px; margin-bottom: 6px; }
+  .greet-sub { font-size: 15px; }
+  .greet-art { width: 96px; height: 96px; }
   .home-desk {
     display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
-    gap: 28px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+    gap: 40px;
     align-items: start;
   }
-  .greet { padding: 28px; }
-  .greet-title { font-size: 22px; }
-  .greet-art { width: 160px; height: 160px; border-radius: 20px; }
-  .remind-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-  }
-  .remind-card { width: auto; }
-  .action {
-    cursor: pointer;
-    transition: background 160ms ease, transform 160ms ease;
-    min-height: 48px;
-  }
-  .action:hover { transform: translateY(-1px); }
-}
-@media (min-width: 900px) and (max-width: 1100px) {
-  .remind-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-side { margin-top: 0; }
+  .quick { padding: 20px; border-radius: 16px; }
+  .quick-for { font-size: 13px; margin-bottom: 14px; }
+  .pet-tab { font-size: 13px; padding: 4px 14px; cursor: pointer; }
+  .actions { gap: 10px; }
+  .action { padding: 14px 6px; border-radius: 12px; gap: 8px; cursor: pointer; transition: background-color 160ms ease; }
+  .action:hover { background: var(--brand-soft); }
+  .rem-mark { width: 8px; height: 8px; }
+  .overdue { font-size: 11px; padding: 1px 8px; }
+  .recent { padding: 18px 20px; border-radius: 16px; }
+  .recent-type { font-size: 12px; }
+  .recent-val { font-size: 16px; }
+  .xs { font-size: 12px; }
 }
 /* #endif */
 </style>

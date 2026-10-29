@@ -14,58 +14,56 @@
           <text v-if="pet.neutered === true" class="tag">已绝育</text>
           <text v-if="pet.neutered === false" class="tag">未绝育</text>
         </view>
-        <view v-if="pet.remark" class="muted" style="margin-top: 10rpx">{{ pet.remark }}</view>
+        <view v-if="pet.remark" class="remark">{{ pet.remark }}</view>
       </view>
     </view>
+    <view class="profile-actions">
+      <view class="btn-pill" @click="goEdit">编辑档案</view>
+      <view class="btn-pill primary" @click="goPortrait">近况小结</view>
+    </view>
 
-    <view class="block" @click="goEdit">编辑档案</view>
-    <view class="block" @click="goPortrait">近况小结</view>
-
-    <view class="card">
-      <view class="section-title">近 30 天小结</view>
-      <view v-if="!summary" class="muted">暂无数据</view>
-      <view v-else class="summary-box">
-        <view class="disc"><text class="num">{{ summary.weightLatest ? summary.weightLatest + ' kg' : '—' }}</text> 最新体重</view>
-        <view class="disc"><text class="num">{{ summary.weightTrend || '—' }}</text> 体重趋势</view>
-        <view class="disc"><text class="num">{{ summary.reminderDueCount || 0 }}</text> 待办提醒</view>
-        <view class="disc"><text class="num">{{ summary.logCount || 0 }}</text> 健康记录</view>
-      </view>
+    <view class="section-head">
+      <view class="section-title">近 30 天</view>
+    </view>
+    <view v-if="!summary" class="card muted">暂无数据</view>
+    <view v-else class="stats">
+      <view class="stat"><text class="stat-num">{{ summary.weightLatest ? summary.weightLatest : '—' }}</text><text class="stat-label">体重 kg</text></view>
+      <view class="stat"><text class="stat-num">{{ summary.weightTrend || '—' }}</text><text class="stat-label">趋势</text></view>
+      <view class="stat"><text class="stat-num">{{ summary.reminderDueCount || 0 }}</text><text class="stat-label">待办</text></view>
+      <view class="stat"><text class="stat-num">{{ summary.logCount || 0 }}</text><text class="stat-label">记录</text></view>
     </view>
       </view>
 
       <view class="detail-col">
-    <view class="card">
-      <view class="row-between">
-        <view class="section-title" style="margin-bottom: 0">提醒</view>
-        <view class="link" @click="addReminder">+ 添加</view>
-      </view>
-      <view v-if="!reminders.length" class="empty-block">
-        <view class="muted">还没有提醒，添加一条开始守护</view>
-        <view class="btn-primary sm" @click="addReminder">添加提醒</view>
-      </view>
-      <view v-else class="remind-grid">
-        <view v-for="r in reminders" :key="r.id" class="card remind-card" :class="{ paused: r.status === 'paused' }">
-          <view class="remind-type">
+    <view class="section-head">
+      <view class="section-title">护理提醒</view>
+      <view class="link" @click="addReminder">添加</view>
+    </view>
+    <view v-if="!reminders.length" class="card empty-block">
+      <view class="muted">还没有提醒，添加一条开始守护</view>
+      <view class="btn-pill primary" @click="addReminder">添加提醒</view>
+    </view>
+    <view v-else class="group">
+      <view v-for="r in reminders" :key="r.id" class="group-row" :class="{ paused: r.status === 'paused' }">
+        <view class="group-main">
+          <view class="group-title remind-type">
             {{ r.type }}
             <text v-if="r.status === 'paused'" class="paused-tag">已暂停</text>
           </view>
-          <view class="muted rem-meta">{{ remCycleText(r) }}</view>
-          <view class="muted rem-meta">{{ formatTime(r.nextDueAt) }}</view>
-          <view class="rem-foot">
-            <view v-if="r.status !== 'paused'" class="btn-mint" @click="checkin(r)">打卡完成</view>
-            <view v-else class="btn-secondary sm" @click="togglePause(r)">恢复</view>
-            <view class="btn-ghost" @click="openRemMenu(r)">更多</view>
-          </view>
+          <view class="group-desc">{{ remCycleText(r) }} · {{ formatTime(r.nextDueAt) }}</view>
         </view>
+        <view v-if="r.status !== 'paused'" class="btn-pill primary" @click="checkin(r)">打卡</view>
+        <view v-else class="btn-pill" @click="togglePause(r)">恢复</view>
+        <view class="more-btn" @click="openRemMenu(r)" aria-label="更多操作">···</view>
       </view>
-      <view v-if="reminders.length" class="more muted" :class="remEndClass">{{ remMore }}</view>
     </view>
+    <view v-if="reminders.length" class="more muted" :class="remEndClass">{{ remMore }}</view>
 
-    <view class="card">
-      <view class="row-between">
-        <view class="section-title" style="margin-bottom: 0">健康记录</view>
-        <view class="link" @click="addLog">+ 记录</view>
-      </view>
+    <view class="section-head log-head">
+      <view class="section-title">健康记录</view>
+      <view class="link" @click="addLog">记录</view>
+    </view>
+    <view class="card log-wrap">
       <view class="seg mini">
         <view class="seg-item" :class="{ on: logType === '' }" @click="setLogType('')">全部</view>
         <view class="seg-item" :class="{ on: logType === 'weight' }" @click="setLogType('weight')">体重</view>
@@ -74,7 +72,7 @@
       </view>
       <view v-if="!logs.length" class="empty-block">
         <view class="muted">还没有记录</view>
-        <view class="btn-primary sm" @click="addLog">添加记录</view>
+        <view class="btn-pill primary" @click="addLog">添加记录</view>
       </view>
       <view v-for="l in logs" :key="l.id" class="log-card">
         <view class="flex1">
@@ -267,7 +265,7 @@ async function delLog(l) {
 .profile .avatar.lg {
   width: 120rpx;
   height: 120rpx;
-  border-radius: 36rpx;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 .profile-text {
@@ -275,9 +273,9 @@ async function delLog(l) {
   min-width: 0;
 }
 .profile-text .name {
-  font-family: 'Varela Round', sans-serif;
+  font-family: var(--font-display); font-weight: 600;
   font-size: 38rpx;
-  color: var(--ink-900);
+  color: var(--ink);
   margin-bottom: 6rpx;
 }
 .tags {
@@ -290,33 +288,17 @@ async function delLog(l) {
   font-size: 22rpx;
   padding: 4rpx 14rpx;
   border-radius: 999rpx;
-  background: var(--pink-100);
-  color: var(--pink-500);
+  background: var(--brand-soft);
+  color: var(--brand-strong);
 }
 
-.block {
-  background: linear-gradient(135deg, #fb7185 0%, #f472b6 55%, #ec4899 100%);
-  color: #fff;
-  border-radius: 28rpx;
-  text-align: center;
-  padding: 26rpx 32rpx;
-  font-weight: 600;
-  font-size: 30rpx;
-  min-height: 88rpx;
+.remark { margin-top: 12rpx; font-size: 24rpx; color: var(--muted); line-height: 1.6; }
+.profile-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24rpx;
-  box-shadow: 0 8px 20px rgba(244, 114, 182, 0.28);
+  gap: 16rpx;
+  margin: -8rpx 0 48rpx;
 }
-.block:active { opacity: 0.9; transform: scale(0.98); }
-.block.sm {
-  padding: 20rpx 28rpx;
-  font-size: 28rpx;
-  min-height: 76rpx;
-  margin-top: 20rpx;
-  box-shadow: none;
-}
+.profile-actions .btn-pill { flex: 1; height: 76rpx; font-size: 26rpx; }
 
 .empty-block {
   text-align: center;
@@ -324,73 +306,41 @@ async function delLog(l) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12rpx;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
 }
 
-.remind-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16rpx;
-  margin-top: 16rpx;
-}
-.remind-card {
-  width: calc(50% - 8rpx);
-  box-sizing: border-box;
-  margin-bottom: 0;
-  padding: 20rpx;
-}
-.remind-card.paused { opacity: 0.7; }
+.group-row.paused { opacity: 0.6; }
 .remind-type {
-  font-weight: 700;
-  color: #831843;
-  margin-bottom: 6rpx;
   display: flex;
   align-items: center;
-  gap: 8rpx;
+  gap: 12rpx;
   flex-wrap: wrap;
 }
-.rem-meta { font-size: 22rpx; margin-bottom: 4rpx; }
 .paused-tag {
   font-size: 20rpx;
-  padding: 2rpx 10rpx;
+  font-weight: 500;
+  padding: 2rpx 12rpx;
   border-radius: 999rpx;
-  background: #e2e8f0;
-  color: #64748b;
+  background: var(--bg);
+  color: var(--muted);
 }
-.rem-foot {
+.more-btn {
+  width: 56rpx;
+  height: 56rpx;
   display: flex;
-  gap: 8rpx;
-  margin-top: 14rpx;
-  align-items: center;
-}
-.rem-foot .btn-mint {
-  flex: 1;
-  height: 56rpx;
-  min-height: 56rpx;
-  font-size: 22rpx;
-  padding: 0 12rpx;
-  line-height: 1;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: var(--subtle);
+  font-size: 28rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
-.btn-ghost {
-  color: var(--pink-500);
-  padding: 8rpx 10rpx;
-  font-weight: 600;
-  font-size: 22rpx;
-}
-.btn-secondary.sm {
-  flex: 1;
-  padding: 0 12rpx;
-  height: 56rpx;
-  min-height: 56rpx;
-  font-size: 22rpx;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
+.more-btn:active { background: var(--bg); }
+.log-head { margin-top: 48rpx; }
+.log-wrap { padding-top: 12rpx; }
 
 .seg.mini {
   margin-top: 20rpx;
@@ -409,13 +359,13 @@ async function delLog(l) {
   align-items: center;
   gap: 16rpx;
   padding: 22rpx 0;
-  border-top: 1rpx solid #fce7f3;
+  border-top: 1rpx solid var(--line);
 }
 .log-card:first-of-type { border-top: none; }
 .flex1 { flex: 1; min-width: 0; }
 .log-val {
   font-size: 28rpx;
-  color: var(--ink-900);
+  color: var(--ink);
   margin-bottom: 6rpx;
   word-break: break-all;
 }
@@ -423,7 +373,7 @@ async function delLog(l) {
   width: 56rpx;
   height: 56rpx;
   border-radius: 50%;
-  background: #fef2f2;
+  background: var(--danger-soft);
   color: var(--danger);
   font-size: 36rpx;
   display: flex;
@@ -434,26 +384,6 @@ async function delLog(l) {
 }
 .del-icon:active { opacity: 0.7; }
 
-.summary-box {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20rpx;
-}
-.disc {
-  background: var(--pink-50);
-  border-radius: 20rpx;
-  padding: 20rpx;
-  font-size: 24rpx;
-  color: var(--ink-500);
-}
-.disc .num {
-  display: block;
-  font-family: 'Varela Round', sans-serif;
-  font-size: 40rpx;
-  color: var(--pink-500);
-  margin-bottom: 6rpx;
-}
-
 /* #ifdef H5 */
 @media (min-width: 900px) {
   .detail-desk {
@@ -462,10 +392,16 @@ async function delLog(l) {
     gap: 24px;
     align-items: start;
   }
-  .block { cursor: pointer; max-width: 240px; }
-  .block:hover { opacity: 0.94; }
-  .profile .avatar.lg { width: 96px; height: 96px; border-radius: 24px; }
-  .profile-text .name { font-size: 26px; }
+  .detail-desk { gap: 40px; }
+  .profile .avatar.lg { width: 88px; height: 88px; border-radius: 50%; }
+  .profile-text .name { font-size: 24px; }
+  .remark { font-size: 13px; }
+  .profile-actions { gap: 10px; margin: -4px 0 36px; }
+  .profile-actions .btn-pill { height: 38px; font-size: 14px; }
+  .log-head { margin-top: 36px; }
+  .more-btn { width: 32px; height: 32px; font-size: 14px; cursor: pointer; }
+  .more-btn:hover { background: var(--bg); }
+  .empty-block { padding: 28px 16px; gap: 14px; }
 }
 /* #endif */
 </style>

@@ -84,13 +84,12 @@ function go(path) {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 220px;
+    width: 232px;
     z-index: 1000;
-    padding: 20px 16px 24px;
+    padding: 24px 16px 24px;
     box-sizing: border-box;
-    background: #ffffff;
-    border-right: 1px solid #fce7f3;
-    box-shadow: 4px 0 24px rgba(244, 114, 182, 0.06);
+    background: var(--surface);
+    border-right: 1px solid var(--line);
   }
   .nav-brand {
     display: flex;
@@ -109,10 +108,11 @@ function go(path) {
     display: block;
   }
   .nav-title {
-    font-family: 'Varela Round', 'Nunito Sans', sans-serif;
-    font-size: 20px;
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 18px;
     font-weight: 700;
-    color: #f472b6;
+    letter-spacing: 1px;
+    color: var(--ink);
     line-height: 1.2;
     white-space: nowrap;
     flex: 1;
@@ -124,22 +124,23 @@ function go(path) {
     align-items: center;
     gap: 12px;
     padding: 12px 14px;
-    margin-bottom: 6px;
-    border-radius: 14px;
-    color: #64748b;
+    margin-bottom: 4px;
+    border-radius: 12px;
+    color: var(--muted);
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: background 160ms ease, color 160ms ease, transform 160ms ease;
     min-height: 48px;
   }
   .nav-item:hover {
-    background: #fdf2f8;
-    color: #9d174d;
+    background: #f5f6f3;
+    color: #1f2a25;
   }
   .nav-item.on {
-    background: #fce7f3;
-    color: #f472b6;
+    background: var(--brand-soft);
+    color: var(--brand-strong);
+    font-weight: 600;
   }
   .nav-item:active {
     transform: scale(0.98);

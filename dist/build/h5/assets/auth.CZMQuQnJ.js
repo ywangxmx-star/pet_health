@@ -1,0 +1,1 @@
+import{y as n,v as e,g as s}from"./index-DGHuGZiG.js";function t(){return!!s("accessToken")}function c(s){return!!t()||(n({title:s||"需要登录",content:"登录后可使用宠物档案、提醒与健康记录。也可先逛百科。",confirmText:"去登录",cancelText:"先逛逛",success:n=>{n.confirm&&e({url:"/pages/login/login"})}}),!1)}export{t as i,c as r};

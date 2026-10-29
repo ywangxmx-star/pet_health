@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view class="card">
       <view class="field">
@@ -17,7 +17,7 @@
           <text class="field-label" style="margin-bottom:0">周期提醒</text>
           <view class="muted xs">关闭则为单次提醒，打卡后不再循环</view>
         </view>
-        <switch :checked="cycleOn" color="#F472B6" @change="onCycleSwitch" />
+        <switch :checked="cycleOn" color="#3f7d64" @change="onCycleSwitch" />
       </view>
       <view class="field" v-if="cycleOn">
         <text class="field-label">周期（天）*</text>
@@ -188,9 +188,9 @@ async function remove() {
 
 <style scoped>
 .picker-val { display: flex; align-items: center; height: 88rpx; min-height: 88rpx; line-height: 1.2; }
-.ph { color: #94a3b8; line-height: inherit; }
+.ph { color: #9ba49f; line-height: inherit; }
 .is-disabled { opacity: 0.45; pointer-events: none; }
-.danger { color: #dc2626; background: #fef2f2; margin-top: 12rpx; }
+.danger { color: #c2453d; background: #fbedec; margin-top: 12rpx; }
 .disc { margin-top: 20rpx; text-align: center; }
 .row-switch {
   display: flex;

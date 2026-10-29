@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view v-if="loading" class="muted pad">整理中…</view>
     <view v-else-if="data" class="desk">
@@ -148,7 +148,7 @@ function drawChart() {
   }
   const ctx = uni.createCanvasContext('weightChart')
   ctx.clearRect(0, 0, w, h)
-  ctx.setStrokeStyle('#FBCFE8')
+  ctx.setStrokeStyle('#c3cdc7')
   ctx.setLineWidth(1)
   for (let i = 0; i < 3; i++) {
     const y = pad + ((h - pad * 2) * i) / 2
@@ -159,7 +159,7 @@ function drawChart() {
   }
   const xs = pts.map((_, i) => pad + (i * (w - pad * 2)) / Math.max(pts.length - 1, 1))
   const ys = values.map((v) => pad + (1 - (v - min) / (max - min)) * (h - pad * 2))
-  ctx.setStrokeStyle('#F472B6')
+  ctx.setStrokeStyle('#3f7d64')
   ctx.setLineWidth(2.5)
   ctx.beginPath()
   xs.forEach((x, i) => {
@@ -167,13 +167,13 @@ function drawChart() {
     else ctx.lineTo(x, ys[i])
   })
   ctx.stroke()
-  ctx.setFillStyle('#EC4899')
+  ctx.setFillStyle('#326650')
   xs.forEach((x, i) => {
     ctx.beginPath()
     ctx.arc(x, ys[i], 3.5, 0, Math.PI * 2)
     ctx.fill()
   })
-  ctx.setFillStyle('#94A3B8')
+  ctx.setFillStyle('#9ba49f')
   ctx.setFontSize(10)
   ctx.fillText(max.toFixed(1), 2, pad + 4)
   ctx.fillText(min.toFixed(1), 2, h - pad + 4)
@@ -189,9 +189,9 @@ function drawChart() {
 .pad { padding: 32rpx; }
 .desk { padding-bottom: 40rpx; }
 .meta { margin: 12rpx 0 8rpx; }
-.quota { margin-bottom: 16rpx; color: #db2777; }
-.body { font-size: 28rpx; color: #831843; line-height: 1.65; }
-.bullet { font-size: 26rpx; color: #831843; line-height: 1.6; margin-bottom: 8rpx; }
+.quota { margin-bottom: 16rpx; color: #326650; }
+.body { font-size: 28rpx; color: #1f2a25; line-height: 1.65; }
+.bullet { font-size: 26rpx; color: #1f2a25; line-height: 1.6; margin-bottom: 8rpx; }
 .chart { width: 100%; height: 160px; margin-bottom: 12rpx; }
 .foot { padding: 8rpx 8rpx 40rpx; line-height: 1.6; }
 .link.dim { opacity: 0.45; }
@@ -200,5 +200,5 @@ function drawChart() {
   align-items: center;
   justify-content: space-between;
 }
-.link { color: #ec4899; font-weight: 600; font-size: 26rpx; }
+.link { color: #326650; font-weight: 600; font-size: 26rpx; }
 </style>

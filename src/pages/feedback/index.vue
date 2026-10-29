@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view class="card">
       <view class="field">
@@ -90,18 +90,18 @@ async function submit() {
 .count { text-align: right; margin-top: 8rpx; font-size: 22rpx; }
 .imgs { display: flex; flex-wrap: wrap; gap: 16rpx; margin-top: 12rpx; }
 .img-wrap { position: relative; width: 160rpx; height: 160rpx; }
-.img { width: 160rpx; height: 160rpx; border-radius: 16rpx; background: #fce7f3; }
+.img { width: 160rpx; height: 160rpx; border-radius: 16rpx; background: #eaf2ee; }
 .img-del {
   position: absolute; top: -10rpx; right: -10rpx;
   width: 40rpx; height: 40rpx; border-radius: 50%;
-  background: #831843; color: #fff; font-size: 28rpx;
+  background: #1f2a25; color: #fff; font-size: 28rpx;
   display: flex; align-items: center; justify-content: center; line-height: 1;
 }
 .img-add {
   width: 160rpx; height: 160rpx; border-radius: 16rpx;
-  border: 2rpx dashed #f9a8d4; color: #f472b6; font-size: 56rpx;
+  border: 2rpx dashed #c3cdc7; color: #3f7d64; font-size: 56rpx;
   display: flex; align-items: center; justify-content: center;
 }
 .is-disabled { opacity: 0.45; pointer-events: none; }
-.ph { color: #94a3b8; }
+.ph { color: #9ba49f; }
 </style>

@@ -177,7 +177,7 @@ function goDisclaimer() { uni.navigateTo({ url: '/pages/legal/disclaimer' }) }
 .panel-muted { display: none; }
 .logo-mark {
   width: 128rpx; height: 128rpx; margin: 0 auto 20rpx; border-radius: 36rpx;
-  box-shadow: 0 12rpx 32rpx rgba(244, 114, 182, 0.35);
+  box-shadow: 0 12rpx 32rpx rgba(31, 42, 37, 0.06);
   display: block;
 }
 .code-row { display: flex; gap: 16rpx; align-items: center; }
@@ -189,18 +189,18 @@ function goDisclaimer() { uni.navigateTo({ url: '/pages/legal/disclaimer' }) }
 }
 .check {
   width: 32rpx; height: 32rpx; border-radius: 50%;
-  border: 2rpx solid #f9a8d4; flex-shrink: 0;
+  border: 2rpx solid #c3cdc7; flex-shrink: 0;
   box-sizing: border-box;
 }
 .check.on {
-  background: #f472b6; border-color: #f472b6;
+  background: #3f7d64; border-color: #3f7d64;
   box-shadow: inset 0 0 0 6rpx #fff;
 }
-.agree-txt { flex: 1; font-size: 24rpx; color: #64748b; line-height: 32rpx; }
-.agree-txt .link { color: #f472b6; font-weight: 600; }
-.skip { margin-top: 8rpx; color: #94a3b8; }
+.agree-txt { flex: 1; font-size: 24rpx; color: #6e7872; line-height: 32rpx; }
+.agree-txt .link { color: #3f7d64; font-weight: 600; }
+.skip { margin-top: 8rpx; color: #9ba49f; }
 .hint { margin-top: 16rpx; text-align: center; }
-.ph { color: #94a3b8; line-height: inherit; }
+.ph { color: #9ba49f; line-height: inherit; }
 .is-disabled { opacity: 0.45; pointer-events: none; }
 
 /* #ifdef H5 */
@@ -222,8 +222,9 @@ function goDisclaimer() { uni.navigateTo({ url: '/pages/legal/disclaimer' }) }
     min-height: 560px;
     border-radius: 28px;
     overflow: hidden;
-    box-shadow: 0 24px 64px rgba(244, 114, 182, 0.16);
-    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 64px rgba(31, 42, 37, 0.08);
+    background: var(--surface);
   }
   .login-panel {
     display: flex;
@@ -232,12 +233,12 @@ function goDisclaimer() { uni.navigateTo({ url: '/pages/legal/disclaimer' }) }
     align-items: flex-start;
     text-align: left;
     padding: 56px 48px;
-    background: linear-gradient(155deg, #fff1f5 0%, #fce7f3 45%, #f9a8d4 100%);
+    background: var(--brand-soft);
   }
-  .logo-mark { margin: 0 0 20px; width: 72px; height: 72px; border-radius: 20px; }
-  .login-panel .hero-brand { font-size: 40px; color: #831843; }
-  .login-panel .hero-sub { font-size: 16px; margin-top: 8px; }
-  .panel-muted { display: block; margin-top: 28px; font-size: 13px; }
+  .logo-mark { margin: 0 0 28px; width: 64px; height: 64px; border-radius: 18px; }
+  .login-panel .hero-brand { font-size: 40px; color: var(--ink); }
+  .login-panel .hero-sub { font-size: 16px; margin-top: 4px; }
+  .panel-muted { display: block; margin-top: auto; padding-top: 40px; font-size: 13px; }
   .login-card {
     margin: 0;
     border: none;

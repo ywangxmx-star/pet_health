@@ -36,30 +36,37 @@
       <view class="btn-primary" @click="goLogin">登录 / 注册</view>
     </view>
 
-    <view v-else class="mine-desk">
-      <view class="mine-col">
-      <view class="card card-tap menu" @click="goFamily">
-        <view>
-          <view class="menu-title">家庭管理</view>
-          <view class="muted">成员与邀请</view>
+    <view v-else class="mine-section">
+      <view class="group-label">常用</view>
+      <view class="group">
+        <view class="group-row" @click="goNotify">
+          <view class="group-main">
+            <view class="group-title">通知<text v-if="unread" class="badge-dot">{{ unread }}</text></view>
+            <view class="group-desc">查看提醒消息</view>
+          </view>
+          <view class="group-chev">›</view>
         </view>
-        <view class="chevron">›</view>
-      </view>
-
-      <view class="card card-tap menu" @click="goGuide">
-        <view>
-          <view class="menu-title">照护引导</view>
-          <view class="muted">档案 / 提醒设置指引</view>
+        <view class="group-row" @click="goFamily">
+          <view class="group-main">
+            <view class="group-title">家庭管理</view>
+            <view class="group-desc">成员与邀请</view>
+          </view>
+          <view class="group-chev">›</view>
         </view>
-        <view class="chevron">›</view>
-      </view>
-
-      <view class="card card-tap menu" @click="goFeedback">
-        <view>
-          <view class="menu-title">意见反馈</view>
-          <view class="muted">文字 + 图片，最多 3 张</view>
+        <view class="group-row" @click="goGuide">
+          <view class="group-main">
+            <view class="group-title">照护引导</view>
+            <view class="group-desc">档案 / 提醒设置指引</view>
+          </view>
+          <view class="group-chev">›</view>
         </view>
-        <view class="chevron">›</view>
+        <view class="group-row" @click="goFeedback">
+          <view class="group-main">
+            <view class="group-title">意见反馈</view>
+            <view class="group-desc">文字 + 图片，最多 3 张</view>
+          </view>
+          <view class="group-chev">›</view>
+        </view>
       </view>
 
       <!-- web 端账号同步：暂时注释
@@ -76,33 +83,30 @@
         <view class="btn-primary" style="margin-top: 12rpx" :class="{ 'is-disabled': !bindEmail.trim() || !bindCode }" @click="doBind">绑定</view>
       </view>
       -->
-      </view>
+    </view>
 
-      <view class="mine-col">
-      <view class="card card-tap menu" @click="goNotify">
-        <view>
-          <view class="menu-title">通知<text v-if="unread" class="badge-dot">{{ unread }}</text></view>
-          <view class="muted">查看提醒消息</view>
+    <view class="mine-section">
+      <view class="group-label">关于</view>
+      <view class="group">
+        <view class="group-row" @click="goPrivacy">
+          <view class="group-main"><view class="group-title">隐私政策</view></view>
+          <view class="group-chev">›</view>
         </view>
-        <view class="chevron">›</view>
-      </view>
+        <view class="group-row" @click="goDisclaimer">
+          <view class="group-main"><view class="group-title">免责声明</view></view>
+          <view class="group-chev">›</view>
+        </view>
+        <view class="group-row" @click="goWikiLicense">
+          <view class="group-main"><view class="group-title">维基内容许可</view></view>
+          <view class="group-chev">›</view>
+        </view>
       </view>
     </view>
 
-    <view class="card card-tap menu" @click="goPrivacy">
-      <view class="menu-title">隐私政策</view>
-      <view class="chevron">›</view>
-    </view>
-    <view class="card card-tap menu" @click="goDisclaimer">
-      <view class="menu-title">免责声明</view>
-      <view class="chevron">›</view>
-    </view>
-    <view class="card card-tap menu" @click="goWikiLicense">
-      <view class="menu-title">维基内容许可</view>
-      <view class="chevron">›</view>
+    <view v-if="user" class="group">
+      <view class="group-row logout" @click="logout">退出登录</view>
     </view>
     <view class="disclaimer muted">本应用仅供养宠事务提醒与笔记，不能替代执业兽医。</view>
-    <view v-if="user" class="btn-secondary danger" @click="logout">退出登录</view>
   </view>
 </template>
 
@@ -280,43 +284,39 @@ function logout() {
 .avatar-tip {
   position: absolute; left: 0; right: 0; bottom: 0;
   height: 36rpx; line-height: 36rpx; text-align: center;
-  font-size: 18rpx; color: #fff; background: rgba(131, 24, 67, 0.55);
+  font-size: 18rpx; color: #fff; background: rgba(31, 42, 37, 0.55);
   border-radius: 0 0 32rpx 32rpx;
 }
-.name { font-family: 'Varela Round', sans-serif; font-size: 36rpx; color: #831843; margin-bottom: 6rpx; }
+.name { font-family: var(--font-display); font-weight: 600; font-size: 36rpx; color: #1f2a25; margin-bottom: 6rpx; }
 .name-tap { display: inline-block; max-width: 100%; }
 .name-input {
-  font-family: 'Varela Round', sans-serif; font-size: 36rpx; color: #831843;
+  font-family: var(--font-display); font-weight: 600; font-size: 36rpx; color: #1f2a25;
   height: 48rpx; line-height: 48rpx; margin-bottom: 6rpx; padding: 0;
-  background: transparent; border: none; border-bottom: 2rpx solid #f9a8d4; width: 100%;
+  background: transparent; border: none; border-bottom: 2rpx solid #c3cdc7; width: 100%;
   box-sizing: border-box;
 }
-.menu { display: flex; align-items: center; justify-content: space-between; }
-.menu-title { font-weight: 700; color: #831843; }
-.chevron { color: #f9a8d4; font-size: 40rpx; }
-.danger { color: #dc2626; background: #fef2f2; margin-top: 8rpx; }
-.disclaimer { text-align: center; padding: 24rpx 16rpx 8rpx; }
+.profile { padding: 40rpx 36rpx; margin-bottom: 48rpx; }
+.mine-section { margin-bottom: 24rpx; }
+.logout { justify-content: center; color: var(--danger); font-weight: 600; font-size: 28rpx; }
+.disclaimer { text-align: center; padding: 16rpx 16rpx 8rpx; font-size: 22rpx; }
 .badge-dot {
   display: inline-block; margin-left: 8rpx; min-width: 32rpx; padding: 0 8rpx;
   height: 32rpx; line-height: 32rpx; text-align: center;
-  background: #f472b6; color: #fff; border-radius: 999rpx; font-size: 20rpx;
+  background: #3f7d64; color: #fff; border-radius: 999rpx; font-size: 20rpx;
 }
-.ph { color: #94a3b8; line-height: inherit; }
+.ph { color: #9ba49f; line-height: inherit; }
 .is-disabled { opacity: 0.45; pointer-events: none; }
 
 /* #ifdef H5 */
 @media (min-width: 900px) {
-  .profile { padding: 28px; }
-  .avatar.lg { width: 88px; height: 88px; border-radius: 24px; }
-  .name, .name-input { font-size: 24px; }
+  .profile { padding: 28px; margin-bottom: 32px; border-radius: 16px; }
+  .avatar.lg { width: 80px; height: 80px; border-radius: 50%; }
+  .avatar-tip { border-radius: 0 0 40px 40px; font-size: 11px; height: 22px; line-height: 22px; }
+  .name, .name-input { font-size: 22px; }
   .name-input { height: 32px; line-height: 32px; }
-  .mine-desk {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-  .mine-col .card { margin-bottom: 16px; }
+  .mine-section { margin-bottom: 28px; }
+  .logout { font-size: 14px; }
+  .disclaimer { font-size: 12px; }
 }
 /* #endif */
 </style>

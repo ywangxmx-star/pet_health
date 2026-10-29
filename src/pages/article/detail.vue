@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view v-if="!article" class="card muted">{{ err || '加载中…' }}</view>
     <view class="card" v-else>
@@ -70,19 +70,19 @@ function goLicense() {
 
 <style scoped>
 .title {
-  font-family: 'Varela Round', sans-serif;
-  font-size: 40rpx; line-height: 1.35; margin-bottom: 12rpx; color: #831843;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 40rpx; line-height: 1.35; margin-bottom: 12rpx; color: #1f2a25;
 }
 .meta { margin-bottom: 8rpx; }
-.divider { height: 1rpx; background: #fce7f3; margin: 24rpx 0; }
-.body { line-height: 1.75; white-space: pre-wrap; font-size: 28rpx; color: #831843; }
+.divider { height: 1rpx; background: #eaf2ee; margin: 24rpx 0; }
+.body { line-height: 1.75; white-space: pre-wrap; font-size: 28rpx; color: #1f2a25; }
 .attr {
   margin-top: 36rpx; padding: 24rpx;
-  background: #fff7fb; border-radius: 24rpx; border: 1rpx solid #fce7f3;
+  background: #f5f6f3; border-radius: 24rpx; border: 1rpx solid #eaf2ee;
 }
-.attr-h { font-weight: 700; color: #831843; margin-bottom: 12rpx; font-size: 28rpx; }
-.attr-p { color: #64748b; font-size: 24rpx; line-height: 1.65; margin-bottom: 8rpx; word-break: break-all; }
+.attr-h { font-weight: 700; color: #1f2a25; margin-bottom: 12rpx; font-size: 28rpx; }
+.attr-p { color: #6e7872; font-size: 24rpx; line-height: 1.65; margin-bottom: 8rpx; word-break: break-all; }
 .attr-tip { font-size: 22rpx; margin-top: 8rpx; }
-.link { color: #ec4899; font-weight: 600; }
-.disclaimer { margin-top: 32rpx; padding-top: 20rpx; border-top: 1rpx solid #fce7f3; }
+.link { color: #326650; font-weight: 600; }
+.disclaimer { margin-top: 32rpx; padding-top: 20rpx; border-top: 1rpx solid #eaf2ee; }
 </style>

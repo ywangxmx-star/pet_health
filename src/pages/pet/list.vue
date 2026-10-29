@@ -11,9 +11,12 @@
     </view>
 
     <template v-else>
-      <view class="pet-head">
-        <view class="section-title" style="margin-bottom: 0">我的宠物</view>
-        <view class="btn-primary fab-inline" @click="goEdit()">添加宠物</view>
+      <view class="page-intro">
+        <view class="page-intro-text">
+          <view class="page-title">我的宠物</view>
+          <view class="page-sub">{{ list.length ? `共 ${list.length} 位家庭成员` : '为每一位毛孩子建立档案' }}</view>
+        </view>
+        <view class="btn-primary" @click="goEdit()">添加</view>
       </view>
 
       <view v-if="loading && !list.length" class="card muted">加载中…</view>
@@ -30,15 +33,13 @@
           <image class="avatar" :src="petAvatar(p.species)" mode="aspectFill" />
           <view class="pet-info">
             <view class="pet-name">{{ p.name }}</view>
-            <view class="muted">{{ p.species }} · {{ p.breed || '未填品种' }}</view>
-            <view v-if="p.weight" class="badge" style="margin-top: 10rpx">{{ p.weight }} kg</view>
+            <view class="pet-meta">{{ p.species }} · {{ p.breed || '未填品种' }}</view>
           </view>
+          <view v-if="p.weight" class="pet-weight">{{ p.weight }}<text class="unit"> kg</text></view>
           <view class="chevron">›</view>
         </view>
       </view>
       <view v-if="list.length" class="more muted" :class="endClass">{{ moreText }}</view>
-
-      <view class="btn-primary fab fab-mobile" @click="goEdit()">添加宠物</view>
     </template>
   </view>
 </template>
@@ -92,30 +93,18 @@ function goLogin() { uni.navigateTo({ url: '/pages/login/login' }) }
 
 <style scoped>
 .more { text-align: center; padding: 24rpx 0 8rpx; font-size: 24rpx; }
-.pet-card { display: flex; align-items: center; gap: 20rpx; }
+.pet-card { display: flex; align-items: center; gap: 24rpx; padding: 28rpx 32rpx; }
 .pet-info { flex: 1; min-width: 0; }
-.pet-name {
-  font-family: 'Varela Round', 'Nunito Sans', sans-serif;
-  font-size: 34rpx; margin-bottom: 4rpx; color: #831843;
-}
-.avatar { width: 96rpx; height: 96rpx; border-radius: 28rpx; flex-shrink: 0; }
+.pet-name { font-weight: 700; font-size: 32rpx; color: var(--ink); line-height: 1.35; }
+.pet-meta { font-size: 24rpx; color: var(--muted); margin-top: 4rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pet-weight { font-size: 30rpx; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.pet-weight .unit { font-size: 22rpx; font-weight: 500; color: var(--muted); }
+.avatar { width: 96rpx; height: 96rpx; border-radius: 50%; flex-shrink: 0; }
 .empty-img { width: 240rpx; height: 240rpx; margin: 0 auto 16rpx; display: block; }
-.chevron { color: #f9a8d4; font-size: 40rpx; line-height: 1; }
-.fab { margin-top: 8rpx; }
-.fab-inline { display: none; padding: 12px 20px; min-height: 44px; font-size: 14px; border-radius: 12px; }
-.pet-head { display: none; }
-.btn-ghost { margin-top: 8rpx; color: #94a3b8; }
+.chevron { color: var(--subtle); font-size: 36rpx; line-height: 1; }
 
 /* #ifdef H5 */
 @media (min-width: 900px) {
-  .pet-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .fab-inline { display: flex; }
-  .fab-mobile { display: none; }
   .pet-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -123,10 +112,20 @@ function goLogin() { uni.navigateTo({ url: '/pages/login/login' }) }
   }
   .pet-card {
     margin-bottom: 0;
-    min-height: 108px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 24px;
+    border-radius: 16px;
+    position: relative;
   }
-  .avatar { width: 72px; height: 72px; border-radius: 18px; }
+  .avatar { width: 64px; height: 64px; }
+  .pet-info { width: 100%; }
   .pet-name { font-size: 18px; }
+  .pet-meta { font-size: 13px; }
+  .pet-weight { font-size: 15px; }
+  .pet-weight .unit { font-size: 12px; }
+  .chevron { position: absolute; top: 24px; right: 22px; }
 }
 @media (min-width: 900px) and (max-width: 1100px) {
   .pet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

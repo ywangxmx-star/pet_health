@@ -1,5 +1,5 @@
 <template>
-  <view class="page">
+  <view class="page narrow">
     <web-side-nav />
     <view class="card">
       <view class="field">
@@ -183,7 +183,7 @@ async function save() {
   overflow-y: auto;
 }
 .picker-val { display: flex; align-items: center; height: 88rpx; line-height: 1.2; }
-.ph { color: #94a3b8; line-height: inherit; }
+.ph { color: #9ba49f; line-height: inherit; }
 .is-disabled { opacity: 0.45; pointer-events: none; }
 .disc { margin-top: 20rpx; text-align: center; }
 </style>
