@@ -1,0 +1,116 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": { "navigationBarTitleText": "爪爪养宠助手", "enablePullDownRefresh": true, "onReachBottomDistance": 120 }
+    },
+    {
+      "path": "pages/login/login",
+      "style": { "navigationBarTitleText": "登录", "navigationStyle": "custom" }
+    },
+    {
+      "path": "pages/pet/list",
+      "style": { "navigationBarTitleText": "宠物", "enablePullDownRefresh": true, "onReachBottomDistance": 120 }
+    },
+    {
+      "path": "pages/pet/edit",
+      "style": { "navigationBarTitleText": "编辑宠物" }
+    },
+    {
+      "path": "pages/pet/detail",
+      "style": { "navigationBarTitleText": "宠物详情", "onReachBottomDistance": 120 }
+    },
+    {
+      "path": "pages/pet/portrait",
+      "style": { "navigationBarTitleText": "近况小结" }
+    },
+    {
+      "path": "pages/pet/log",
+      "style": { "navigationBarTitleText": "健康记录" }
+    },
+    {
+      "path": "pages/pet/reminder",
+      "style": { "navigationBarTitleText": "添加提醒" }
+    },
+    {
+      "path": "pages/guide/index",
+      "style": { "navigationBarTitleText": "开始照护" }
+    },
+    {
+      "path": "pages/family/index",
+      "style": { "navigationBarTitleText": "家庭", "onReachBottomDistance": 120 }
+    },
+    {
+      "path": "pages/discover/index",
+      "style": { "navigationBarTitleText": "百科", "enablePullDownRefresh": true, "onReachBottomDistance": 120 }
+    },
+    {
+      "path": "pages/article/detail",
+      "style": { "navigationBarTitleText": "文章" }
+    },
+    {
+      "path": "pages/mine/index",
+      "style": { "navigationBarTitleText": "我的", "onReachBottomDistance": 120 }
+    },
+    {
+      "path": "pages/mine/notify",
+      "style": { "navigationBarTitleText": "通知", "enablePullDownRefresh": true, "onReachBottomDistance": 120 }
+    },
+    {
+      "path": "pages/feedback/index",
+      "style": { "navigationBarTitleText": "意见反馈" }
+    },
+    {
+      "path": "pages/legal/privacy",
+      "style": { "navigationBarTitleText": "隐私政策" }
+    },
+    {
+      "path": "pages/legal/disclaimer",
+      "style": { "navigationBarTitleText": "免责声明" }
+    },
+    {
+      "path": "pages/legal/wiki-license",
+      "style": { "navigationBarTitleText": "维基内容许可" }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "爪爪养宠助手",
+    "navigationBarBackgroundColor": "#FDF2F8",
+    "backgroundColor": "#FDF2F8",
+    "backgroundColorTop": "#FDF2F8",
+    "backgroundColorBottom": "#FFFFFF"
+  },
+  "tabBar": {
+    "color": "#94A3B8",
+    "selectedColor": "#F472B6",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tab/home.png",
+        "selectedIconPath": "static/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/pet/list",
+        "text": "宠物",
+        "iconPath": "static/tab/pet.png",
+        "selectedIconPath": "static/tab/pet-active.png"
+      },
+      {
+        "pagePath": "pages/discover/index",
+        "text": "百科",
+        "iconPath": "static/tab/book.png",
+        "selectedIconPath": "static/tab/book-active.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "static/tab/me.png",
+        "selectedIconPath": "static/tab/me-active.png"
+      }
+    ]
+  }
+}
